@@ -79,27 +79,66 @@ function copyTypes() {
   }
 }
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-let context = await esbuild.context({
-  bundle: true,
-  platform: 'node',
-  target: 'node14.21.3',
-  external: ['prettier'],
-  minify: process.argv.includes('--minify'),
-  entryPoints: [path.resolve(__dirname, './src/cli.js')],
-  outfile: path.resolve(__dirname, './dist/cli.mjs'),
-  format: 'esm',
-  plugins: [patchRecast()
-    , patchCjsInterop()
-    // , copyTypes()
-  ],
-})
+// Function to run build for both ESM and CJS
+async function buildFormats() {
+  // ESM Build
+  await esbuild.build({
+    bundle: true,
+    platform: 'node',
+    target: 'node14.21.3',
+    external: ['prettier'],
+    minify: process.argv.includes('--minify'),
+    entryPoints: [path.resolve(__dirname, './src/cli.js')],
+    outfile: path.resolve(__dirname, './dist/cli.mjs'),
+    format: 'esm',
+    plugins: [patchRecast(), patchCjsInterop()],
+  });
 
-await context.rebuild()
-
-if (process.argv.includes('--watch')) {
-  await context.watch()
+  // CJS Build
+  await esbuild.build({
+    bundle: true,
+    platform: 'node',
+    target: 'node14.21.3',
+    external: ['prettier'],
+    minify: process.argv.includes('--minify'),
+    entryPoints: [path.resolve(__dirname, './src/cli.js')],
+    outfile: path.resolve(__dirname, './dist/cli.cjs'),
+    format: 'cjs',
+    plugins: [patchRecast(), /* You might need adjustments for CJS compatibility */],
+  });
 }
 
-await context.dispose()
+// Running the build for both formats
+buildFormats().then(() => {
+  console.log('Build completed for both ESM and CJS formats.');
+}).catch((error) => {
+  console.error('Build failed:', error);
+});
+
+
+// const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+// let context = await esbuild.context({
+//   bundle: true,
+//   platform: 'node',
+//   target: 'node14.21.3',
+//   external: ['prettier'],
+//   minify: process.argv.includes('--minify'),
+//   entryPoints: [path.resolve(__dirname, './src/cli.js')],
+//   outfile: path.resolve(__dirname, './dist/cli.mjs'),
+//   format: 'esm',
+//   plugins: [patchRecast()
+//     , patchCjsInterop()
+//     // , copyTypes()
+//   ],
+// })
+
+// await context.rebuild()
+
+// if (process.argv.includes('--watch')) {
+//   await context.watch()
+// }
+
+// await context.dispose()
