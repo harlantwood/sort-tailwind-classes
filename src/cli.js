@@ -1,28 +1,13 @@
 #!/usr/bin/env node
 
-// @ts-check
-// @ts-ignore
-import * as astTypes from 'ast-types'
-import jsesc from 'jsesc'
-import lineColumn from 'line-column'
-import * as prettierParserAngular from 'prettier/plugins/angular'
-import * as prettierParserBabel from 'prettier/plugins/babel'
-// @ts-ignore
-import * as recast from 'recast'
-import { getTailwindConfig } from './config.js'
-import { getCustomizations } from './options.js'
-import { loadPlugins } from './plugins.js'
-import { sortClasses, sortClassList } from './sorting.js'
-import { visit } from './utils.js'
-
-// let base = await loadPlugins()
-
 import fs from 'fs'
-// import { glob } from 'glob';
 import { globSync } from 'glob'
 
+import { getTailwindConfig } from './config.js'
+import { sortClasses, sortClassList } from './sorting.js'
+
 async function main() {
-  let { context, generateRules } = await getTailwindConfig({})
+  let { context } = await getTailwindConfig({})
 
   const tailwindEnv = { context }
 
@@ -34,9 +19,8 @@ async function main() {
   }
 }
 
-
 function processFiles(pattern, tailwindEnv) {
-  console.log(`Processing files matching ${pattern}`)
+  // console.log(`Processing files matching ${pattern}`)
   const files = globSync(pattern)
   if (files.length === 0) {
     console.log('No files matched.')
@@ -44,24 +28,33 @@ function processFiles(pattern, tailwindEnv) {
   }
 
   for (let file of files) {
-    console.log(`Processing ${file}`)
+    // console.log(`Processing ${file}`)
     let html = fs.readFileSync(file, 'utf8')
 
     // Regex to find class attributes and their values
-    const classRegex = /class="([^"]+)"/g
+    const classRegex = /\bclass="([^"]+)"/g
     let match
+    let changed = false
     while ((match = classRegex.exec(html)) != null) {
       const originalClasses = match[1]
-      const newClasses = sortClasses(originalClasses, { env: tailwindEnv })
-      const newClassAttr = `class="${newClasses}"`
+      // console.log(`Original classes: ${originalClasses}`)
+      const orderedClasses = sortClasses(originalClasses, { env: tailwindEnv })
+      if (orderedClasses!== originalClasses) {
+        changed = true
+        // console.log(`Sorted   classes: ${orderedClasses}`)
+      }
+      // console.log('')
+      const newClassAttr = `class="${orderedClasses}"`
       html =
         html.substring(0, match.index) +
         newClassAttr +
         html.substring(match.index + match[0].length)
     }
-
-    fs.writeFileSync(file, html, 'utf8')
-    console.log(`Processed ${file}`)
+    if (changed) {
+      fs.writeFileSync(file, html, 'utf8')
+      console.log(`Reordered classes in ${file}`)
+    }
+    // console.log(`Processed ${file}`)
   }
 }
 
