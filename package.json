@@ -7,7 +7,7 @@
   "main": "dist/cli.cjs",
   "module": "dist/cli.mjs",
   "bin": {
-    "sort-tailwind-classes": "./dist/cli.mjs"
+    "sort-tailwind-classes": "./dist/cli.cjs"
   },
   "files": [
     "dist"
