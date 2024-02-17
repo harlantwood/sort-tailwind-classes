@@ -38,7 +38,7 @@ function patchCjsInterop() {
     name: 'patch-cjs-interop',
     setup(build) {
       build.onEnd(async () => {
-        let outfile = './dist/index.mjs'
+        let outfile = './dist/cli.mjs'
 
         let content = await fs.promises.readFile(outfile)
 
@@ -46,7 +46,7 @@ function patchCjsInterop() {
         let code = [
           `import {createRequire} from 'module'`,
           `import {dirname as __global__dirname__} from 'path'`,
-          `import {fileURLToPath} from 'url'`,
+          // `import {fileURLToPath} from 'url'`,
 
           // CJS interop fixes
           `const require=createRequire(import.meta.url)`,
@@ -87,10 +87,13 @@ let context = await esbuild.context({
   target: 'node14.21.3',
   external: ['prettier'],
   minify: process.argv.includes('--minify'),
-  entryPoints: [path.resolve(__dirname, './src/index.js')],
-  outfile: path.resolve(__dirname, './dist/index.mjs'),
+  entryPoints: [path.resolve(__dirname, './src/cli.js')],
+  outfile: path.resolve(__dirname, './dist/cli.mjs'),
   format: 'esm',
-  plugins: [patchRecast(), patchCjsInterop(), copyTypes()],
+  plugins: [patchRecast()
+    , patchCjsInterop()
+    // , copyTypes()
+  ],
 })
 
 await context.rebuild()
