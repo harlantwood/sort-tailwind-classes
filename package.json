@@ -4,10 +4,10 @@
   "description": "A CLI for sorting Tailwind CSS classes.",
   "license": "MIT",
   "type": "module",
-  "main": "dist/cli.cjs",
+  "main": "dist/cli.js",
   "module": "dist/cli.mjs",
   "bin": {
-    "sort-tailwind-classes": "./dist/cli.cjs"
+    "sort-tailwind-classes": "./dist/cli.js"
   },
   "files": [
     "dist"

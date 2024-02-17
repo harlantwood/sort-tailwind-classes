@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // @ts-check
 // @ts-ignore
 import * as astTypes from 'ast-types'

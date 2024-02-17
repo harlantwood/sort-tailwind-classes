@@ -104,7 +104,7 @@ async function buildFormats() {
     external: ['prettier'],
     minify: process.argv.includes('--minify'),
     entryPoints: [path.resolve(__dirname, './src/cli.js')],
-    outfile: path.resolve(__dirname, './dist/cli.cjs'),
+    outfile: path.resolve(__dirname, './dist/cli.js'),
     format: 'cjs',
     plugins: [patchRecast(), /* You might need adjustments for CJS compatibility */],
   });
