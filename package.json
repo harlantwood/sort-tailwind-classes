@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "A CLI for sorting Tailwind CSS classes.",
   "license": "MIT",
-  "type": "module",
   "main": "dist/cli.js",
   "module": "dist/cli.mjs",
   "bin": {
