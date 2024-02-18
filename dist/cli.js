@@ -85265,14 +85265,8 @@ function loadTailwindConfig(baseDir, tailwindConfigPath) {
   try {
     let pkgDir = path2.dirname((0, import_resolve_from.default)(baseDir, "tailwindcss/package.json"));
     resolveConfig = require(path2.join(pkgDir, "resolveConfig"));
-    createContext = require(path2.join(
-      pkgDir,
-      "lib/lib/setupContextUtils"
-    )).createContext;
-    generateRules = require(path2.join(
-      pkgDir,
-      "lib/lib/generateRules"
-    )).generateRules;
+    createContext = require(path2.join(pkgDir, "lib/lib/setupContextUtils")).createContext;
+    generateRules = require(path2.join(pkgDir, "lib/lib/generateRules")).generateRules;
     loadConfig = require(path2.join(pkgDir, "loadConfig"));
   } catch {
   }
