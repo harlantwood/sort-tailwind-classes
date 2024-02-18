@@ -11,12 +11,13 @@ async function main() {
 
   const tailwindEnv = { context }
 
-  const pattern = process.argv[2]
-  if (!pattern) {
-    console.error('Please provide a glob pattern as the first argument.')
-  } else {
-    processFiles(pattern, tailwindEnv)
+  const patterns = process.argv.slice(2);
+  if (patterns.length === 0) {
+    console.error('Please provide at least one glob pattern as an argument.')
+    return
   }
+
+  patterns.forEach(pattern => processFiles(pattern, tailwindEnv))
 }
 
 function processFiles(pattern, tailwindEnv) {
