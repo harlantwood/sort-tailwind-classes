@@ -39,7 +39,7 @@ function processFiles(pattern, tailwindEnv) {
       const originalClasses = match[1]
       // console.log(`Original classes: ${originalClasses}`)
       const orderedClasses = sortClasses(originalClasses, { env: tailwindEnv })
-      if (orderedClasses!== originalClasses) {
+      if (orderedClasses !== originalClasses) {
         changed = true
         // console.log(`Sorted   classes: ${orderedClasses}`)
       }

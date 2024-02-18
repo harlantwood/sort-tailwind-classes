@@ -39,10 +39,7 @@ function getClassOrderPolyfill(classes, { env }) {
   return classNamesWithOrder
 }
 
-export function sortClasses(
-  classStr,
-  { env, ignoreFirst = false, ignoreLast = false },
-) {
+export function sortClasses(classStr, { env, ignoreFirst = false, ignoreLast = false }) {
   if (typeof classStr !== 'string' || classStr === '') {
     return classStr
   }

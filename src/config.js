@@ -91,8 +91,8 @@ async function getBaseDir(options) {
   return prettierConfigPath
     ? path.dirname(prettierConfigPath)
     : options.filepath
-    ? path.dirname(options.filepath)
-    : process.cwd()
+      ? path.dirname(options.filepath)
+      : process.cwd()
 }
 
 /**
@@ -112,14 +112,8 @@ function loadTailwindConfig(baseDir, tailwindConfigPath) {
     let pkgDir = path.dirname(resolveFrom(baseDir, 'tailwindcss/package.json'))
 
     resolveConfig = require(path.join(pkgDir, 'resolveConfig'))
-    createContext = require(path.join(
-      pkgDir,
-      'lib/lib/setupContextUtils',
-    )).createContext
-    generateRules = require(path.join(
-      pkgDir,
-      'lib/lib/generateRules',
-    )).generateRules
+    createContext = require(path.join(pkgDir, 'lib/lib/setupContextUtils')).createContext
+    generateRules = require(path.join(pkgDir, 'lib/lib/generateRules')).generateRules
 
     // Prior to `tailwindcss@3.3.0` this won't exist so we load it last
     loadConfig = require(path.join(pkgDir, 'loadConfig'))

@@ -23,14 +23,7 @@
     "_pre": "rimraf dist && cpy 'node_modules/tailwindcss/lib/css/*' dist/css",
     "prebuild": "npm run _pre",
     "build": "npm run _esbuild",
-    "predev": "npm run _pre",
-    "dev": "npm run _esbuild -- --watch",
-    "format": "prettier \"src/**/*.js\" \"scripts/**/*.js\" \"tests/test.js\" --write --print-width 100 --single-quote --no-semi --plugin-search-dir ./tests",
-    "prepublishOnly": "npm run build && node scripts/copy-licenses.js",
-    "release-channel": "node ./scripts/release-channel.js",
-    "release-notes": "node ./scripts/release-notes.js",
-    "pretest": "node scripts/install-fixture-deps.js",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "format": "prettier \"src/**/*.js\" --write --print-width 100 --single-quote --no-semi"
   },
   "devDependencies": {
     "clear-module": "^4.1.2",
@@ -45,7 +38,7 @@
     "tailwindcss": "^3.4.1"
   },
   "engines": {
-    "node": ">=14.21.3"
+    "node": ">=16"
   },
   "importSort": {
     ".js, .jsx, .ts, .tsx": {
