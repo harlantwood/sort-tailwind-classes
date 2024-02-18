@@ -85394,7 +85394,6 @@ function processFiles(pattern, tailwindEnv) {
     return;
   }
   for (let file of files) {
-    console.log(`Processing ${file}`);
     let html = import_fs3.default.readFileSync(file, "utf8");
     const classRegex = /\bclass="([^"]+)"/g;
     let match2;
