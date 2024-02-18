@@ -85380,12 +85380,12 @@ function sortClassList(classList, { env }) {
 async function main() {
   let { context } = await getTailwindConfig({});
   const tailwindEnv = { context };
-  const pattern = process.argv[2];
-  if (!pattern) {
-    console.error("Please provide a glob pattern as the first argument.");
-  } else {
-    processFiles(pattern, tailwindEnv);
+  const patterns = process.argv.slice(2);
+  if (patterns.length === 0) {
+    console.error("Please provide at least one glob pattern as an argument.");
+    return;
   }
+  patterns.forEach((pattern) => processFiles(pattern, tailwindEnv));
 }
 function processFiles(pattern, tailwindEnv) {
   const files = globSync(pattern);
@@ -85394,6 +85394,7 @@ function processFiles(pattern, tailwindEnv) {
     return;
   }
   for (let file of files) {
+    console.log(`Processing ${file}`);
     let html = import_fs3.default.readFileSync(file, "utf8");
     const classRegex = /\bclass="([^"]+)"/g;
     let match2;
