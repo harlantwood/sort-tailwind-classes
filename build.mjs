@@ -83,19 +83,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Function to run build for both ESM and CJS
 async function buildFormats() {
-  // ESM Build
-  await esbuild.build({
-    bundle: true,
-    platform: 'node',
-    target: 'node14.21.3',
-    external: ['prettier'],
-    minify: process.argv.includes('--minify'),
-    entryPoints: [path.resolve(__dirname, './src/cli.js')],
-    outfile: path.resolve(__dirname, './dist/cli.mjs'),
-    format: 'esm',
-    plugins: [patchRecast(), patchCjsInterop()],
-  });
-
   // CJS Build
   await esbuild.build({
     bundle: true,

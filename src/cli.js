@@ -4,7 +4,7 @@ import fs from 'fs'
 import { globSync } from 'glob'
 
 import { getTailwindConfig } from './config.js'
-import { sortClasses, sortClassList } from './sorting.js'
+import { sortClasses } from './sorting.js'
 
 async function main() {
   let { context } = await getTailwindConfig({})
